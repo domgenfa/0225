@@ -5,8 +5,8 @@ import Admin from './pages/admin';
 export default class App extends Component{
     render(){
         return <Switch>
-            <Route path="/login" compontent={Login}/>
-            <Route  path="/" compontent={Admin}/>
+            <Route path="/login" component={Login}/>
+            <Route  path="/" component={Admin}/>
         </Switch>
     }
 }
