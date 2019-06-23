@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Form, Icon, Input, Button,message} from 'antd';
 import { reqLogin }from '../../api';
 import axios from 'axios';
-import  logo from './logo.png';
+import  logo from '../../assets/images/logo.png';
 import './index.less';
 const Item = Form.Item;
 class Login extends Component{
