@@ -4,6 +4,7 @@ import { reqLogin }from '../../api';
 import axios from 'axios';
 import  logo from '../../assets/images/logo.png';
 import './index.less';
+import { setItem } from '../../utils/storage-tools';
 const Item = Form.Item;
 class Login extends Component{
     login=(e)=>{
@@ -15,6 +16,7 @@ class Login extends Component{
               const {username, password} = values;
               const result = await reqLogin(username,password)
               if(result){
+                  setItem(result)
                   this.props.history.replace('/')
               }else {
                   this.props.form.resetFields(['password'])

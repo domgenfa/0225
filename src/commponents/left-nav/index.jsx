@@ -23,7 +23,7 @@ class LeftNav extends Component {
             </Item>
         }
 
-    componentDidMount() {
+    componentWillMount() {
             const {pathname}=this.props.location;
 
           this.menus=menuList.map((menu)=>{
@@ -59,15 +59,15 @@ class LeftNav extends Component {
     render(){
         const {collapsed}= this.props;
         return <div>
-            <Link className='left-nav' to='/home'>
+            <Link className='left-nav-logo' to='/home'>
                 <img src= {logo} alt=""/>
-                <h1 style={{display:collapsed ? 'none' : 'display'}}> </h1>
+                <h1 style={{display:collapsed ? 'none' : 'display'}}> 硅谷后台</h1>
             </Link>
-            <menu theme="dark" defaultSelectedKeys={[this.selectedKey]} defaultOpenKeys={[this.openKey]} mode="inline">
+            <Menu theme="dark" defaultSelectedKeys={[this.selectedKey]} defaultOpenKeys={[this.openKey]} mode="inline">
                 {
                     this.menus
                 }
-            </menu>
+            </Menu>
         </div>
     }
 }

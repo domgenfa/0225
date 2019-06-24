@@ -3,6 +3,9 @@ import { Layout } from 'antd';
 import LeftNav from '../../commponents/left-nav';
 import HeaderMain from '../../commponents/header-main'
 //import 不能放在const后面
+import { getItem } from '../../utils/storage-tools';
+import { reqValidateUserInfo } from '../../api';
+
 const { Header, Content, Footer, Sider } = Layout;
 
 
@@ -14,7 +17,14 @@ export default class Admin extends Component {
         console.log(collapsed);
         this.setState({ collapsed });
     };
-
+        async componentWillMount(){
+            const user = getItem();
+            if(user && user._id){
+                const result = await reqValidateUserInfo(user._id);
+                if(result)return;
+            }
+            this.props.history.replace('/login');
+        }
     render() {
         const {collapsed} =this.state;
         return (
