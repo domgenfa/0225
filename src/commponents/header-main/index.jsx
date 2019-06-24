@@ -15,7 +15,11 @@ import menuList from '../../config/menu-config';
         this.username = getItem().username;
          // this.title= this.getTitle(this.props)
     }
-    logout =()=>{
+    componentWillReceiveProps(nextProps, nextContext) {
+        this.title = this.getTitle(nextProps)
+    }
+
+     logout =()=>{
         Modal.confirm({
             title:'您确认要退出登录吗？',
             onOk:()=>{
