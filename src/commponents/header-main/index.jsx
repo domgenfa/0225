@@ -9,7 +9,7 @@ import {Modal}from 'antd';
 import './index.less';
 import { reqWeather } from '../../api';
 import {getItem,removeItem} from "../../utils/storage-tools";
-// import menuList from '../../config/menu-config';
+import menuList from '../../config/menu-config';
 
  class HeaderMain extends Component {
         state={
@@ -20,7 +20,7 @@ import {getItem,removeItem} from "../../utils/storage-tools";
     //只要读取一次
     componentWillMount() {
         this.username = getItem().username;
-         // this.title= this.getTitle(this.props)
+          this.title= this.getTitle(this.props)
     }
     async componentDidMount(){
 
@@ -31,10 +31,30 @@ import {getItem,removeItem} from "../../utils/storage-tools";
         },1000)
         const result= await reqWeather();
     }
-    // componentWillReceiveProps(nextProps, nextContext) {
-    //     this.title = this.getTitle(nextProps)
-    // }
+      componentWillReceiveProps(nextProps, nextContext) {
+         this.title = this.getTitle(nextProps)
+         }
+getTitle = (nextProps)=>{
+    const {pathname}=nextProps.location;
+    let title='';
+    for(let i=0;i<menuList.length;i++){
+        const menu = menuList[i];
+        if(menu.children){
+            for(let j=0;j<menu.children.length;j++){
+                const item = menu.children[j];
+                if(item.key===pathname){
+                 return item.title;
+                }
+            }
 
+        }else{
+            if(menu.key===pathname){
+                return menu.title;
+            }
+        }
+    }
+
+};
      logout =()=>{
         Modal.confirm({
             title:'您确认要退出登录吗？',
@@ -49,6 +69,9 @@ import {getItem,removeItem} from "../../utils/storage-tools";
 
 }
     render() {
+            // renden里面写，初始化要更新也要
+            // 获取当前路径
+
             const {sysTime,weather,weatherImg}=this.state;
         return <div>
             <div className="header-main-top">
@@ -56,7 +79,7 @@ import {getItem,removeItem} from "../../utils/storage-tools";
                 <MyButton onClick={this.logout}>退出</MyButton>
             </div>
             <div className="header-main-bottom">
-                <span className="header-main-left">用户管理</span>
+                <span className="header-main-left">{this.title}</span>
                 <div className="header-main-right">
                     {/*时间转换*/}
                     <span>{dayjs(sysTime).format('YYYY-MM-DD HH:mm:ss')}</span>
