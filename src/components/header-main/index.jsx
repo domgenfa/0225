@@ -14,9 +14,9 @@ import menuList from '../../config/menu-config';
  class HeaderMain extends Component {
         state={
             sysTime:Date.now(),
-            weather:'睛',
+            weather:'晴',
             weatherImg:'http://api.map.baidu.com/images/weather/day/qing.png'
-        }
+        };
     //只要读取一次
     componentWillMount() {
         this.username = getItem().username;
@@ -28,13 +28,29 @@ import menuList from '../../config/menu-config';
         this.setState({
             sysTime:Date.now()
         })
-        },1000)
+        },1000);
         const result= await reqWeather();
+        if(result){
+            this.setState(result)
+        }
     }
-      componentWillReceiveProps(nextProps, nextContext) {
+      componentWillReceiveProps(nextProps) {
          this.title = this.getTitle(nextProps)
          }
-getTitle = (nextProps)=>{
+     logout =()=>{
+         Modal.confirm({
+             title:'您确认要退出登录吗？',
+             onOk:()=>{
+                 // 清空数据
+                 removeItem();
+                 // 退出登录
+                 this.props.history.replace('/login')
+             }
+
+         })
+
+     }
+    getTitle = (nextProps)=>{
     const {pathname}=nextProps.location;
     let title='';
     for(let i=0;i<menuList.length;i++){
@@ -55,19 +71,7 @@ getTitle = (nextProps)=>{
     }
 
 };
-     logout =()=>{
-        Modal.confirm({
-            title:'您确认要退出登录吗？',
-            onOk:()=>{
-                // 清空数据
-                removeItem();
-                // 退出登录
-                this.props.history.replace('/login')
-            }
 
-        })
-
-}
     render() {
             // renden里面写，初始化要更新也要
             // 获取当前路径
