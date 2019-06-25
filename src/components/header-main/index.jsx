@@ -24,12 +24,14 @@ import menuList from '../../config/menu-config';
     }
     async componentDidMount(){
 
-        setInterval(()=>{
+        this.timerd=setInterval(()=>{
         this.setState({
             sysTime:Date.now()
         })
         },1000);
-        const result= await reqWeather();
+        const {promise,cancel}=reqWeather();
+        this.cancel = cancel;
+        const result= await promise ;
         if(result){
             this.setState(result)
         }
@@ -50,7 +52,13 @@ import menuList from '../../config/menu-config';
          })
 
      }
-    getTitle = (nextProps)=>{
+     //清除定时器，ajax请求
+     componentWillUnmount() {
+        clearInterval(this.timerd)
+         this.cancel()
+     }
+
+     getTitle = (nextProps)=>{
     const {pathname}=nextProps.location;
     let title='';
     for(let i=0;i<menuList.length;i++){
