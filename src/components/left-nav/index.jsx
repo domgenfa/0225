@@ -24,8 +24,15 @@ class LeftNav extends Component {
         }
 
     componentWillMount() {
-            const {pathname}=this.props.location;
+            let {pathname}=this.props.location;
 
+
+        const pathnameReg = /^\/product\//;
+
+        if (pathnameReg.test(pathname)) {
+            pathname = pathname.slice(0, 8);
+        }
+        let isHome = true;
           this.menus=menuList.map((menu)=>{
               const children = menu.children;
               if(children){

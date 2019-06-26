@@ -35,18 +35,17 @@ export default class Admin extends Component {
             if(user && user._id){
                 const result = await reqValidateUserInfo(user._id);
                 if(result){
-                    return this.setState({
-                        isLoading:false,
-                        success:true
-                    })
-                }
+                       return this.setState({
+                            isLoading:false,
+                            success:true
+                        })
             }
            this.setState({
                isLoading:false,
                success:false
            })
-        }
-    render() {
+        }}
+    render(){
             // 读取状态
         const {collapsed,isLoading,success} =this.state;
         if(isLoading)return null;

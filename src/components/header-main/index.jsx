@@ -59,8 +59,14 @@ import menuList from '../../config/menu-config';
      }
 
      getTitle = (nextProps)=>{
-    const {pathname}=nextProps.location;
-    let title='';
+    let {pathname}=nextProps.location;
+         const pathnameReg = /^\/product\//;
+///切换商品管理的标题
+         if (pathnameReg.test(pathname)) {
+             pathname = pathname.slice(0, 8);
+         }
+
+
     for(let i=0;i<menuList.length;i++){
         const menu = menuList[i];
         if(menu.children){
