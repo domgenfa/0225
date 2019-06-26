@@ -14,6 +14,7 @@ export default function ajax(url,data ={},method="get"){
             const {data}=res;
             if(data.status===0){
                 return data.data || {};
+            //    {}设置一个空对象，值不能为undefined
             }else{
                 message.error(data.msg,2)
             }

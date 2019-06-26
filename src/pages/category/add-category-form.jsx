@@ -11,23 +11,25 @@ class AddCategoryForm extends Component {
     categories: PropTypes.array.isRequired
   };
   validator = (rule,value,callback)=>{
-    if(!value)return callback('请输入分类名称~')
-    const result =this.props.categories.find((category)=> category.name===value)
+    if(!value)return callback('请输入分类名称~');
+    const result =this.props.categories.find((category)=> category.name===value);
     if(result){
       callback('输入的分类名称已存在，请重新输入')
     }else{
       callback();
     }
-  }
-  validator = (rule,value,callback)=>{
-    if(!value) return callback('请输入分类名称~');
-    const result = this.props.categories.find((category)=>category.name===value);
-    if(result){
-      callback("输入的分类名称已存在，请重新输入")
-    }else{
-      callback()
-    }
-  }
+  };
+  // validator = (rule,value,callback)=>{
+  //   if(!value) return callback('请输入分类名称~');
+  //   const result = this.props.categories.find((category)=>category.name===value);
+  //   if(result){
+  //     callback("输入的分类名称已存在，请重新输入")
+  //   }else{
+  //     callback()
+  //   }
+  // };
+
+
  render() {
    const {getFieldDecorator}=this.props.form;
   return <Form>
@@ -38,13 +40,16 @@ class AddCategoryForm extends Component {
              initialValue:'0'
             }
         )(
-            <Select defaultValue="lucy" style={{ width:'100% '}} onChange={this.handleChange}>
+            <Select  style={{ width:'100% '}} onChange={this.handleChange}>
               <Option value="0" key='0'>一级分类</Option>
 
               {
-                this.props.categories.map((category)=>{
-                  return <Option value={category._id}key={category._id}>{category.name} </Option>
-                })
+                // this.props.categories.map((category)=>{
+                //   return <Option value={category._id}key={category._id}>{category.name} </Option>
+                // })
+                  this.props.categories.map((category)=>{
+                    return <Option value ={category._id}key={category._id}>{category.name}</Option>
+                  })
               }
             </Select>
         )
