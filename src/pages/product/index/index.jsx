@@ -46,7 +46,12 @@ this.getProducts(1,3)
   showAddProduct = () => {
     this.props.history.push('/product/save-update');
   };
-
+showUpdateProduct =(product)=>{
+    return()=>{
+        this.props.history.push('/product/save-update', product)
+    //    路由这里面要传一个参数product
+    }
+}
   render(){
     const {products ,total,loading} = this.state;
     const columns = [
@@ -74,7 +79,7 @@ this.getProducts(1,3)
         render: (product) => {
           return <div>
             <MyButton>详情</MyButton>
-            <MyButton>修改</MyButton>
+            <MyButton onClick={this.showUpdateProduct(product)}>修改</MyButton>
           </div>
         }
       }
