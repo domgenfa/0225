@@ -2,31 +2,53 @@ import React, { Component } from 'react';
 import { Card, Button, Icon, Table, Select, Input } from 'antd';
 
 import MyButton from '../../../components/my-button';
-import { reqProducts } from '../../../api';
+import {reqCategories, reqProducts} from '../../../api';
 import './index.less';
 
 const { Option } = Select;
 
 export default class Index extends Component {
 state ={
-  products:[]
+  products:[],
+    total:0,
+    loading:true,
 };
-  async componentDidMount(){
-    const result = await reqProducts(1,3);
-    // console.log(result)
-    if(result){
-      this.setState({
-        products:result.list
-      })
-    }
-    console.log(result)
+  // async componentDidMount(){
+  //   const result = await reqProducts(1,3);
+  //   // console.log(result)
+  //   if(result){
+  //     this.setState({
+  //         total:result.total,
+  //       products:result.list,
+  //     })
+  //   }
+  //   console.log(result)
+  // }
+   componentDidMount(){
+this.getProducts(1,3)
   }
+  getProducts = async (pageNum,pageSize)=>{
+      this.setState({
+          loading:true,
+      });
+    const result = await reqProducts(pageNum, pageSize)
+    if(result){
+        this.setState({
+            products:result.list,
+            total:result.total,
+            loading:false
+        })
+    }
+
+};
+//     0
+
   showAddProduct = () => {
     this.props.history.push('/product/save-update');
   };
 
   render(){
-    const {products} = this.state;
+    const {products ,total,loading} = this.state;
     const columns = [
       {
         title:'商品名称',
@@ -79,8 +101,13 @@ state ={
           showQuickJumper: true,
           showSizeChanger: true,
           pageSizeOptions: ['3', '6', '9', '12'],
-          defaultPageSize: 3
+          defaultPageSize: 3,
+            total,
+            onChange:this.getProducts,
+            onShowSizeChange:this.getProducts
         }}
+        rowKey='_id'
+        loading={loading}
     />
     </Card>
   }

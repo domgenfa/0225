@@ -50,6 +50,8 @@ class LeftNav extends Component {
                                   // 说明当前地址是一个二级菜单，需要展开一级菜单
                                   // 初始化展开的菜单
                                   this.openKey = menu.key;
+                                  isHome = false;
+
                               }
                               return this.createMenu(item);
                           })
@@ -60,7 +62,7 @@ class LeftNav extends Component {
               }
 
           });
-        this.selectedKey = pathname;
+        this.selectedKey = isHome ? '/home' : pathname;
         }
 
     render(){

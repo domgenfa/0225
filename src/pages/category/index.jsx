@@ -129,6 +129,66 @@ componentDidMount() {
        })
    };
    updateCategoryName = ()=>{
+       const {form} = this.updateCategoryNameForm.props;
+       form.validateFields(async (err,values)=>{
+           const {categoryName} = values;
+           const categoryId = this.category._id;
+           const result  = await reqUpdateCategoryName(categoryId,categoryName);
+           if(result){
+               const {parentId} = this.category;
+               let categoryData = this.state.categories;
+               let stateName = 'categories';
+               if(parentId !=='0'){
+                   categoryData = this.state.subCategories;
+                   stateName = 'subCategories';
+               }
+
+           const categories = categoryData.map((category)=>{
+               let {_id,name,parentId}=category;
+               if(_id ===parentId){
+                   name = categoryName;
+                   return {
+                       _id,
+                       name,
+                       parentId
+                   }
+               }
+               return category
+           })
+           form.resetFields(['categoryName']);
+           message.success("")
+               this.state({
+                   isShowUpdateCategoryName:false,
+                   [stateName]:categories
+               })
+       }
+   })
+}
+    // updateCategoryName = ()=>{
+    //     const {form} =this.updateCategoryNameForm.props;
+    //     form.validateFields(async (err,values)=>{
+    //         if(!err){
+    //             const {categoryId} = this.category._id;
+    //             const {categoryName} = values;
+    //         const result = await reqUpdateCategoryName(categoryId,categoryName);
+    //         if(result){
+    //             const {parentId} = this.category;
+    //             let categoryData = this.state.categories;
+    //             let stateName = 'categories';
+    //             if(parentId !== '0'){
+    //                 categoryData = this.state.subCategories;
+    //                 stateName = 'subCategories';
+    //
+    //             }
+    //             const categories = categoryData.map((category)=>{
+    //                 let {_id,name,parentId}= category
+    //                 if(_id ===categ)
+    //             })
+    //         }
+    //         }
+    //     })
+    // }
+   updateCategoryName = ()=>{
        const {form} =this.updateCategoryNameForm.props;
        form.validateFields(async(err,values)=>{
            if(!err){
@@ -165,6 +225,7 @@ componentDidMount() {
            }
        })
    };
+
 showSubCategory = (category)=> {
     return async() => {
         this.parentCategory = category;
